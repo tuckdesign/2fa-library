@@ -140,13 +140,13 @@ use Da\TwoFA\Manager;
 
 $manager = new Manager();
 
-$previousTs = $user->twofa_timestamp ? : $manager->getTimestamp();
+$previousTs = $user->twofa_timestamp ? : 0;
 
 $timestamp = $manager->verify($_POST['key'], $user->twofa_secret, $previousTs);
 
 if($timestamp) { 
     // ... success, update user timestamp
-    $user->twofa_timestamp = $timestamp; 
+    $user->twofa_timestamp = $manager->getTimestamp(); 
     $user->save();
 } else {
     // ... error
